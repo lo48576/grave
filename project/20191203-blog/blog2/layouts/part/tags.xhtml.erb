@@ -1,0 +1,38 @@
+<%- target = @target || @item -%>
+<%- tags_root = '/tags/' -%>
+<%- target_tags = target[:tags] || [] -%>
+<%- unless target_tags.empty? -%>
+  <div class="tags">
+    <div>
+      <a href="<%= tags_root %>">Tags</a>:
+    </div>
+    <ul class="blog-tag-classes">
+      <li>
+        direct:
+        <ul class="blog-tags">
+          <%- target_tags.sort.each do |tag; tag_i| -%>
+            <%- tag_i = tags.item(tag) -%>
+            <li>
+              <%= link_to(tag_i[:title], tag_i) %>
+            </li>
+          <%- end -%>
+        </ul>
+      </li>
+      <%- indirect_tags = tags.ancestors(target_tags).to_a - target_tags -%>
+      <% unless indirect_tags.empty? %>
+      <li>
+        indirect:
+        <ul class="blog-tags">
+          <%- indirect_tags.sort.each do |tag; tag_i| -%>
+              <li>
+                <%- tag_i = tags.item(tag) -%>
+                <%= link_to(tag_i[:title], tag_i) %>
+              </li>
+            <%- end -%>
+        </ul>
+      </li>
+      <%- end -%>
+    </ul>
+  </div>
+<%- end -%>
+<%-# vim: set ft=eruby : -%>

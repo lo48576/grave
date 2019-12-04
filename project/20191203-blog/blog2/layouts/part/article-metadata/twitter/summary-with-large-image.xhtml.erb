@@ -1,0 +1,42 @@
+<%-# See <https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary-card-with-large-image>. -%>
+<%-
+	meta_items = {
+		'card': {
+			value: 'summary_large_image',
+			required: true,
+		},
+		'site': {
+			value: @data[:site_account],
+		},
+		'creator': {
+			value: @data[:author_account],
+		},
+		'title': {
+			value: @data[:article_title],
+			required: true,
+		},
+		'description': {
+			value: @data[:description],
+		},
+		'image': {
+			value: @data[:image_url],
+		},
+		'image:alt': {
+			value: @data[:image_alt],
+		},
+	}
+-%>
+<%- meta_items.each do |key, meta| -%>
+	<%-
+		value = meta[:value]
+		required = meta[:required] || false
+	-%>
+	<%- if !value.nil? -%>
+		<meta name="twitter:<%= key %>" content="<%= value %>" />
+	<% else %>
+		<%-
+			raise "Metadata #{key.inspect} for twitter summary_large_image card is required but got `nil` value" if required
+		-%>
+	<%- end -%>
+<%-	end -%>
+<%-# vim: set ft=eruby : -%>

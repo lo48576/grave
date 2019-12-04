@@ -1,0 +1,80 @@
+<%-# See <http://ogp.me/>. -%>
+<%-
+	meta_items = {
+		'title': {
+			value: @data[:article_title],
+			required: true,
+		},
+		'type': {
+			value: 'article',
+			required: true,
+		},
+		'image': {
+			value: @data[:image_url],
+			required: true,
+		},
+		'image:type': {
+			value: @data[:image_type],
+		},
+		'image:width': {
+			value: @data[:image_width],
+		},
+		'image:height': {
+			value: @data[:image_height],
+		},
+		'image:alt': {
+			value: @data[:image_alt],
+		},
+		'url': {
+			value: @data[:canonical_url],
+			required: true,
+		},
+		'audio': {
+			value: @data[:audio_url],
+		},
+		'description': {
+			value: @data[:description],
+		},
+		'determinator': {
+			value: @data[:determinator],
+		},
+		'locale': {
+			value: @data[:locale],
+		},
+		'sitename': {
+			value: @data[:site_title],
+		},
+		'video': {
+			value: @data[:video_url],
+		},
+		'article:published_time': {
+			value: @data[:published_time],
+		},
+		'article:modified_time': {
+			value: @data[:modified_time],
+		},
+		'article:expiration_time': {
+			value: @data[:expiration_time],
+		},
+		'article:author': {
+			value: @data[:author_name],
+		},
+		'article:section': {
+			value: @data[:category],
+		},
+	}
+-%>
+<%- meta_items.each do |key, meta| -%>
+	<%-
+		value = meta[:value]
+		required = meta[:required] || false
+	-%>
+	<%- if !value.nil? -%>
+		<meta property="og:<%= key %>" content="<%= value %>" />
+	<% else %>
+		<%-
+			raise "Metadata #{key.inspect} for opengraph is required but got `nil` value" if required
+		-%>
+	<%- end -%>
+<%-	end -%>
+<%-# vim: set ft=eruby : -%>

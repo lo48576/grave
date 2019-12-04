@@ -1,0 +1,32 @@
+<%- render '/page-base.*' do -%>
+<section>
+	<h1><%= @item[:title] %></h1>
+	<%= render '/part/archive-top-link.xhtml' -%>
+	<table class="visual">
+		<style type="text/css" scoped="scoped">
+			td {
+				text-align: center;
+			}
+		</style>
+		<tbody>
+			<%- @item[:year_months].each do |year4, months| -%>
+				<tr>
+					<th>
+						<%= link_to "#{year4} 年", @items[source_path_for_archive(year4)] -%>
+					</th>
+					<%- months.each do |month2| -%>
+						<td>
+							<%- if month2 -%>
+								<%= link_to "#{month2}", @items[source_path_for_archive(year4, month2)] -%>
+							<%- else -%>
+								-
+							<%- end -%>
+						</td>
+					<%- end -%>
+				</tr>
+			<%- end -%>
+		</tbody>
+	</table>
+</section>
+<%- end -%>
+<%-# vim: set ft=eruby : -%>

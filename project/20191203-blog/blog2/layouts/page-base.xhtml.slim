@@ -1,0 +1,41 @@
+doctype xml
+| <!DOCTYPE html>
+html[xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja" prefix="og: http://ogp.me/ns#"]
+  head
+    meta[charset="utf-8"]
+    title
+      | #{{@item[:title]}} - #{{@config[:site_title]}}
+    / Basic styles.
+    link[rel="stylesheet" href="/assets/styles/base.css"]
+    / Styles for pygments.
+    link[rel="stylesheet" href="/assets/styles/pygments-default.css"]
+    / Canonical URI.
+    - if @config[:base_url]
+      link[rel="canonical" href=(@config[:base_url] + @item.path)]
+    / Atom feed.
+    link[rel="alternate" type="application/atom+xml" href="/feed.xml" title=@config[:site_title]]
+    / Previous page.
+    - if @prev_uri
+      link[rel="prev" href=@prev_uri]
+    / Next page.
+    - if @next_uri
+      link[rel="next" href=@next_uri]
+    / Excerpt
+    - if excerpt = @item[:excerpt]
+      meta[name="description" content=excerpt]
+    / Other metadata.
+    == render '/part/metadata-for-sns.*'
+    / Generator.
+    meta[name="generator" content="Nanoc #{Nanoc::VERSION}"]
+  body
+    div#page-header-wrapper
+      header#page-header
+        span.site-title
+          a[href="/"]
+            = @config[:site_title]
+    div#page-main-wrapper
+      main#page-main
+        == yield
+    div#page-footer-wrapper
+      footer#page-footer
+        | footer-slim

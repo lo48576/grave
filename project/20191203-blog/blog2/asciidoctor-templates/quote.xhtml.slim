@@ -1,0 +1,24 @@
+- if title? || (attr? 'attribution') || (attr? 'citetitle')
+  / Caption required.
+  figure[id=(id unless title?)]
+    blockquote
+      = content
+    figcaption
+      - attribution = attr 'attribution'
+      - citetitle = attr 'citetitle'
+      = attribution
+      - if citetitle
+        - if attribution
+          ',
+        | <cite>#{citetitle}</cite>
+- else
+  blockquote[id=id]
+  = content
+
+
+/- if title?
+/  div.quote.titled[id=id]
+/    include _title.xhtml
+/    include _quote_inner.xhtml
+/- else
+/  include _quote_inner.xhtml

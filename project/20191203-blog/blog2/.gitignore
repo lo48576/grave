@@ -1,0 +1,7 @@
+# For bundle.
+/vendor/bundle
+
+# For nanoc.
+/crash.log
+/output
+/tmp

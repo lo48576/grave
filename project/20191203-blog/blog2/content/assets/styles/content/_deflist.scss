@@ -1,0 +1,19 @@
+@import '../vars';
+
+dt {
+	border-left: 0.4rem solid #a33;
+	padding-left: 0.3rem;
+	margin: $vertical-unit/4 0;
+}
+
+dd {
+	margin: 0 0 0 1.5rem;
+
+	>p:first-child {
+		margin-top: $vertical-unit / 4;
+	}
+	>p:last-child {
+		margin-bottom: $vertical-unit / 4;
+	}
+}
+

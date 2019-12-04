@@ -1,0 +1,21 @@
+/ TODO: Callout is not yet supported.
+- highlighter = document.attr 'source-highlighter'
+- source_lang = attr 'language'
+- nowrap = 'nowrap' if !document.attr?('prewrap') || (option? 'nowrap')
+= capture_to_local code_block=:code_block
+  - if style == 'source'
+    pre.highlight[class=[highlighter, ('linenums' if (attr? 'linenums')), nowrap]]
+      code[data-lang=source_lang class=("language-#{source_lang}" if source_lang)]
+        = content
+  - else
+    pre[class=nowrap]
+      = content
+- if title
+  figure
+    = code_block
+    - if title
+      figcaption
+        p
+          = title
+- else
+  = code_block

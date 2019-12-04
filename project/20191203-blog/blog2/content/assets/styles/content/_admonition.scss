@@ -1,0 +1,66 @@
+@import '../vars';
+
+%docbook-admon-block-title {
+	all: unset;
+	display: block;
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin: 1rem 0;
+}
+
+%docbook-admon-block-before-icon {
+	display: inline-block;
+	//font-size: 2rem; // For icon character.
+	font-size: 1em; // For text label.
+	font-weight: normal;
+	margin: 0 0.5rem 0 0;
+}
+
+@mixin docbook-admon($fg-color, $bg, $content: null) {
+	margin: $vertical-unit 0;
+	padding: 0 1em;
+	border-left: 0.5rem $fg-color solid;
+
+	>h1, >h2, >h3, >h4, >h5, >h6 {
+		@extend %docbook-admon-block-title;
+
+		color: $fg-color;
+
+		&::before {
+			@extend %docbook-admon-block-before-icon;
+			content: $content;
+			color: $fg-color;
+		}
+	}
+}
+
+aside.admonition.caution {
+	// U+2621 CAUTION SIGN
+	// U+26A0 WARNING SIGN
+	//@include docbook-admon(#ea5, #f8f0d0, "\26a0");
+	@include docbook-admon(#ea5, #f8f0d0, "CAUTION:");
+}
+
+aside.admonition.important {
+	// U+2757 HEAVY EXCLAMATION MARK SYMBOL
+	//@include docbook-admon(#ea5, #f8f0d0, "\2757");
+	@include docbook-admon(#ea5, #f8f0d0, "IMPORTANT:");
+}
+
+aside.admonition.note {
+	// U+1F5C8 NOTE
+	//@include docbook-admon(#5be, #f8f0d0, "\1f5c8");
+	@include docbook-admon(#5be, #f8f0d0, "NOTE:");
+}
+
+aside.admonition.tip {
+	// U+1F4A1 ELECTRIC LIGHT BULB
+	//@include docbook-admon(#5be, #f8f0d0, "\1f4a1");
+	@include docbook-admon(#5be, #f8f0d0, "TIP:");
+}
+
+aside.admonition.warning {
+	// U+26A0 WARNING SIGN
+	//@include docbook-admon(red, #fee, "\26a0");
+	@include docbook-admon(red, #fee, "WARNING:");
+}

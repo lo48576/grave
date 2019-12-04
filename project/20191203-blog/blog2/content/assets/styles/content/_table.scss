@@ -1,0 +1,63 @@
+@import '../vars';
+
+$border-width: 1px;
+$border-style: solid;
+$border-color: #ddd;
+$border: $border-width $border-style $border-color;
+
+table:not([role=presentation]) {
+	margin: 1.5rem auto;
+	border-collapse: collapse;
+	border-width: $border-width 0;
+	border-style: $border-style none;
+	border-color: $border-color currentcolor;
+
+	caption {
+		font-weight: bolder;
+		color: $block-title-color;
+		background: inherit;
+	}
+	table:not([role="presentation"]) {
+		background: #fcfcfc;
+		caption {
+			background: inherit;
+		}
+	}
+
+	th, td {
+		padding: 0.5em 0.7em;
+	}
+
+	thead, tfoot {
+		background: #eef;
+	}
+
+	&:not(.asciidoctor) {
+		tr {
+			// Controlled by Asciidoctor.
+			// Specify table frames by properties of `table`, not `tr`.
+			border-top: $border;
+
+			&:nth-child(2n) {
+				background: #f0f0f0;
+			}
+		}
+		table:not([role="presentation"]) {
+			tr {
+				border-top: $border-style;
+				border-bottom: $border-style;
+				&:nth-child(2n) {
+					background: #e0f8e0;
+				}
+			}
+		}
+		th, td {
+			padding: 0.5em 0.7em;
+
+			// Controlled by Asciidoctor.
+			&:not(:first-child) {
+				border-left: $border;
+			}
+		}
+	}
+}

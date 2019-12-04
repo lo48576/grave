@@ -1,0 +1,15 @@
+<%- render '/page-base.*' do -%>
+<%- datetime_format = '%F %H:%M' -%>
+<section>
+	<h1><%= @item[:title] %></h1>
+	<%= render '/part/archive-top-link.xhtml' -%>
+	<ol start="0">
+		<%- @item[:periods].each_with_index do |created_at, i| -%>
+			<li>
+				<%= link_to "#{created_at[0].strftime(datetime_format)} - #{created_at[1].strftime(datetime_format)}", "/list/#{i}" -%>
+			</li>
+		<%- end -%>
+	</ol>
+</section>
+<%- end -%>
+<%-# vim: set ft=eruby : -%>

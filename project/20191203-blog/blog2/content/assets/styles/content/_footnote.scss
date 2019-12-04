@@ -1,0 +1,37 @@
+@import '../vars';
+
+%footnote-mark-selected {
+	background-color: yellow;
+}
+
+%footnote-def-selected {
+	background-color: yellow;
+}
+
+aside.footnotes {
+	font-size: 80%;
+	margin-bottom: $vertical-unit;
+
+	&::before {
+		display: block;
+		border-top: 1px solid #aaa;
+		width: 50%;
+		content: " ";
+		margin: $vertical-unit auto;
+	}
+
+	>h1, >h2, >h3, >h4, >h5, >h6 {
+		all: unset;
+		margin-top: 0;
+		font-size: 1.8em;
+	}
+	li:target {
+		@extend %footnote-def-selected;
+	}
+}
+
+sup.footnote-mark {
+	&:target {
+		@extend %footnote-mark-selected;
+	}
+}

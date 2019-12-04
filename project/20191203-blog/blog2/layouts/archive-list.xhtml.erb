@@ -1,0 +1,25 @@
+<%- if src_path = source_path_for_article_list(@item[:page_index] - 1)
+		older_list_item = @items[src_path]
+		older_list_link = link_to '&#xAB; older articles', older_list_item
+	end -%>
+<%- if src_path = source_path_for_article_list(@item[:page_index] + 1)
+		newer_list_item = @items[src_path]
+		newer_list_link = link_to 'newer articles &#xBB;', newer_list_item
+	end -%>
+<%- render '/page-base.*',
+		prev_uri: older_list_item&.path,
+		next_uri: newer_list_item&.path do -%>
+<%- prev_next = render '/part/prev-next-page.*', prev_link: older_list_link, next_link: newer_list_link -%>
+<section>
+	<h1><%= @item[:title] %></h1>
+	<%= render '/part/archive-top-link.xhtml' -%>
+	<p>
+		<%= @item[:index_first] + 1 %> - <%= @item[:index_last] + 1 %> 番目 (<%= @item[:num_articles_page] %> / <%= @item[:num_articles] %> 件)
+		<%= @item[:page_index] + 1 %> / <%= @item[:num_pages] %> ページ
+	</p>
+	<%= prev_next -%>
+	<%= render '/part/item-list.*', target_items: articles_sorted_by_publish.reverse[@item[:index_first]..@item[:index_last]], header_level: 2 -%>
+	<%= prev_next -%>
+</section>
+<%- end -%>
+<%-# vim: set ft=eruby : -%>

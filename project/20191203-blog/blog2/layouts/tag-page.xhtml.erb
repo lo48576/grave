@@ -1,0 +1,67 @@
+<%- render '/page-base.*' do -%>
+<%- target_tag = Tags.from_item(@item) -%>
+<%= yield -%>
+<section>
+  <h1>関連情報</h1>
+  <section>
+    <h2>関連タグ</h2>
+    <section>
+      <h3>先祖</h3>
+      <% if parents = tags.parents(target_tag) %>
+      <ul>
+        <% parents.sort.each do |parent; link_item| %>
+          <% link_item = tags.item(parent) %>
+          <li style="font-weight: bold">
+            <%= link_to(link_item[:title], link_item) %>
+          </li>
+        <% end %>
+        <% tags.indirect_ancestors(target_tag).sort.each do |ancestor; link_item| %>
+          <% link_item = tags.item(ancestor) %>
+          <li>
+            <%= link_to(ancestor, tags.item(ancestor)) %>
+          </li>
+        <% end %>
+      </ul>
+      <% end %>
+    </section>
+    <section>
+      <h3>子孫</h3>
+      <% if children = tags.children(target_tag) %>
+      <ul>
+        <% children.sort.each do |child; link_item| %>
+          <% link_item = tags.item(child) %>
+          <li style="font-weight: bold">
+            <%= link_to(link_item[:title], link_item) %>
+          </li>
+        <% end %>
+        <% tags.indirect_descendants(target_tag).sort.each do |descendant; link_item| %>
+          <% link_item = tags.item(descendant) %>
+          <li>
+            <%= link_to(link_item[:title], link_item) %>
+          </li>
+        <% end %>
+      </ul>
+      <% end %>
+    </section>
+  </section>
+  <section>
+    <h2>直接タグ付けされた記事</h2>
+    <%- target_items = tags.articles_direct(target_tag) -%>
+    <%- if target_items.any? -%>
+      <%= render '/part/item-list.*', target_items: target_items.sort_by{|e| e[:created_at]}.reverse, header_level: 3 -%>
+    <%- else -%>
+      <p>There's no article with tag <%= h target_tag %>.</p>
+    <%- end -%>
+  </section>
+  <section>
+    <h2>間接的にタグ付けされた記事</h2>
+    <%- target_items = tags.articles_indirect(target_tag) -%>
+    <%- if target_items.any? -%>
+      <%= render '/part/item-list.*', target_items: target_items.sort_by{|e| e[:created_at]}.reverse, header_level: 3 -%>
+    <%- else -%>
+      <p>There's no article with tag <%= h target_tag %>.</p>
+    <%- end -%>
+  </section>
+</section>
+<%- end -%>
+<%-# vim: set ft=eruby : -%>

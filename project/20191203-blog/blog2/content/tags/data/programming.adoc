@@ -1,0 +1,10 @@
+---
+kind: tag
+imply:
+  - computer
+
+excerpt: "プログラミング関連の話題。"
+---
+# programming
+
+プログラミング関連の話題。

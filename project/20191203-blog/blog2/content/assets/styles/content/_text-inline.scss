@@ -1,0 +1,74 @@
+mark {
+	background: yellow;
+}
+
+ins {
+	// TODO: Improve `ins` style.
+	&::before {
+		background: #dfd;
+		text-decoration: none;
+		// U+1F589 LOWER LEFT PENCIL
+		// U+2711 WHITE NIB
+		content: "\1f589";
+	}
+}
+
+del {
+	// TODO: Improve `del` style.
+	&::before {
+		background: #fdd;
+		text-decoration: none;
+		// U+1F5D1 WASTEBASKET
+		// U+1F5D9 CANCELLATION X
+		content: "\1f5d1";
+	}
+}
+
+strong {
+	font-weight: bolder;
+
+	strong {
+		text-decoration: underline solid red;
+
+		strong {
+			text-decoration: underline double red;
+		}
+	}
+}
+
+em {
+	font-weight: bolder;
+	font-style: italic;
+
+	em {
+		text-decoration: underline solid red;
+
+		em {
+			text-decoration: underline double red;
+		}
+	}
+}
+
+abbr[title] {
+	border: none;
+	text-decoration: underline dotted;
+}
+
+rt {
+	// This would have been cleared by sanitize.css.
+	font-size: 50%;
+}
+
+quote {
+	&[lang|="en"] {
+		// U+201C: LEFT DOUBLE QUOTATION MARK
+		// U+201D: RIGHT DOUBLE QUOTATION MARK
+		quotes: "\201C" "\201D";
+	}
+	&::before {
+		content: open-quote;
+	}
+	&::after {
+		content: close-quote;
+	}
+}

@@ -1,0 +1,56 @@
+@import '../vars';
+
+$site-min-side-margin: 0.5rem;
+
+@mixin toplevel-content() {
+	margin: 0 $site-min-side-margin;
+	@media screen and (min-width: 50rem) {
+		margin: auto;
+		width: calc(100vw - 1rem);
+		max-width: 74rem;
+		@content;
+	}
+}
+
+body {
+	margin: 0;
+	background: #fcfcfc;
+	color: #444;
+	font-family: "Mplus 1p", sans-serif;
+
+	>#page-header-wrapper {
+		margin-bottom: $vertical-unit;
+		background: #333;
+	}
+	#page-header {
+		@include toplevel-content;
+		.site-title {
+			$title-color: #999;
+			font-size: 1rem;
+			font-weight: normal;
+			@media screen and (min-width: 64rem) {
+				font-size: 2rem;
+				font-weight: bold;
+			}
+			>a {
+				&, &:visited, &:hover {
+					color: $title-color;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+	>#page-main-wrapper {
+	}
+	#page-main {
+		@include toplevel-content;
+	}
+	>#page-footer-wrapper {
+		margin-top: $vertical-unit;
+		background: #333;
+		color: #ccc;
+	}
+	#page-footer {
+		@include toplevel-content;
+	}
+}

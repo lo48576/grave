@@ -1,0 +1,15 @@
+- prev_path = prev_item(articles_sorted_by_publish)&.path
+- next_path = next_item(articles_sorted_by_publish)&.path
+- render '/page-base.*', prev_uri: prev_path, next_uri: next_path
+  - prev_next = render '/part/prev-next-page.*', prev_link: newer_article, next_link: older_article
+  == prev_next
+  aside.article-info
+    == render '/part/article-dates.*'
+    == render '/part/tags.*'
+  hr
+  article
+    h1
+      a.permalink[role="presentation"]
+      == @item[:title]
+    == yield
+  == prev_next

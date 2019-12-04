@@ -1,0 +1,5 @@
+- def_id = "#{document.attr 'footnote-def-prefix', '_footnotedef_'}#{id}"
+- mark_id = "#{document.attr 'footnote-mark-prefix', '_footnote_'}#{id}"
+sup.footnote-mark[id=mark_id]
+  a.footnote-mark[href="##{def_id}"]
+    | [#{(attr 'index') - 1}]

@@ -1,0 +1,10 @@
+---
+kind: tag
+imply:
+  - blog-meta
+
+excerpt: "このブログのテスト。"
+---
+# test (meta)
+
+このブログのテスト。

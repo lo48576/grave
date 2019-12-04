@@ -1,0 +1,10 @@
+---
+kind: tag
+imply:
+  - programming
+
+excerpt: "プログラミング言語 Rust の話題。"
+---
+# Rust
+
+プログラミング言語 Rust の話題。

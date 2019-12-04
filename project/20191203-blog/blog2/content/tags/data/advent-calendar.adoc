@@ -1,0 +1,8 @@
+---
+kind: tag
+
+excerpt: "advent calendar への投稿。"
+---
+# advent calendar
+
+advent calendar への投稿。

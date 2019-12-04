@@ -1,0 +1,6 @@
+- if !notitle && has_header?
+  h1[id=id]
+    = header.title
+= content
+- if footnotes? && !(attr? 'nofootnotes')
+  include _footnotes.xhtml

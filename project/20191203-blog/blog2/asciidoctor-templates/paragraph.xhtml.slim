@@ -1,0 +1,9 @@
+- preamble_class = 'preamble' if parent.context == :preamble
+- if title?
+  div.titled.paragraph[id=id class=role class=preamble_class]
+    include _title.xhtml
+    p
+      = content
+- else
+  p[id=id class=role class=preamble_class]
+    = content

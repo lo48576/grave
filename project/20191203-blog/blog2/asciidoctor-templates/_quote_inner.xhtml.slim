@@ -1,0 +1,4 @@
+blockquote[id=(id unless title?)]
+  = content
+  - if (attr? 'attribution') || (attr? 'citetitle')
+    include _attribution.xhtml

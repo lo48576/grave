@@ -1,0 +1,56 @@
+- border_width = (document.attr 'table-border-width', '1px')
+- border_style = (document.attr 'table-border-style', 'solid')
+- border_color = (document.attr 'table-border-color', '#ddd')
+- style_width = "width: #{(attr 'tablepcwidth')}%;" if !(option? 'autowidth') || (role&.include? 'stretch') || (attr? 'width')
+- style_frame = case (attr 'frame', 'all')
+- when 'topbot'; "border-width: #{border_width} 0; border-style: #{border_style} none; border-color: #{border_color} currentcolor;"
+- when 'sides'; "border-width: 0 #{border_width}; border-style: none #{border_style}; border-color: currentcolor #{border_color};"
+- when 'none'; "border-width: 0; border-style: none; border-color: currentcolor;"
+- when 'all'; "border-width: #{border_width}; border-style: #{border_style}; border-color: #{border_color};"
+- style_align = case (attr 'align', 'left')
+- when 'left'; "margin-left: 0; margin-right: auto;"
+- when 'right'; "margin-left: auto; margin-right: 0;"
+- when 'center'; "margin-left: auto; margin-right: auto;"
+/ TODO: Support `stripes`.
+/ See <https://asciidoctor.org/docs/user-manual/#summary-tables>.
+- style="#{style_width} #{style_frame} #{style_align}".strip
+- grid = (attr 'grid')
+- grid_rows = (grid == 'all') || (grid == 'rows')
+- grid_cols = (grid == 'all') || (grid == 'cols')
+table.asciidoctor[id=id style=(style unless style.empty?)]
+  - if title
+    caption
+      = title
+  - if (attr 'rowcount') != 0
+    colgroup
+      - if (option? 'autowidth')
+        - columns.each do
+          col
+      - else
+        - columns.each do |col|
+          col[style="width: #{col.attr 'colpcwidth'}%"]
+  - [:head, :body, :foot].reject {|sec| rows[sec].empty? }.each_with_index do |sec, sec_i|
+    *{tag: "t#{sec}"}
+      - rows[sec].each_with_index do |row, row_i|
+        - style_grid_rows = "border-top: #{border_width} #{border_style} #{border_color};" if (sec_i > 0 || row_i > 0) && grid_rows
+        tr[style=style_grid_rows]
+          - row.each_with_index do |cell, col_i|
+            - celltag = (sec == :head || cell.style == :header) ? 'th' : 'td'
+            - style_halign = "text-align: #{cell.attr 'halign'};"
+            - style_valign = "vertical-align: #{cell.attr 'valign'};"
+            - style_grid_cols = "border-left: #{border_width} #{border_style} #{border_color};" if (col_i > 0) && grid_cols
+            - cell_style = "#{style_halign} #{style_valign} #{style_grid_cols}".strip
+            *{tag: celltag, colspan: cell.colspan, rowspan: cell.rowspan, style: (cell_style unless cell_style.empty?)}
+              - if sec == :head
+                = cell.text
+              - else
+                - case cell.style
+                - when :asciidoc
+                  = cell.content
+                - else
+                  - if cell.content.size == 1
+                    = cell.content.first
+                  - else
+                    = cell.content.each do |inner|
+                      p
+                        = inner

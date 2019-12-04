@@ -1,0 +1,13 @@
+aside#footnotes.footnotes
+  - header_level = (attr 'footnotes-header-level', 1) + 1
+  *{tag: "h#{header_level}", class: ['section-header']}
+    a.permalink[href="#footnotes" role="presentation"]
+    = attr 'footnotes-title', 'Footnotes'
+  ol[start=0]
+    - footnotes.each do |footnote|
+      - def_id = "#{document.attr 'footnote-def-prefix', '_footnotedef_'}#{footnote.id}"
+      - mark_id = "#{document.attr 'footnote-mark-prefix', '_footnote_'}#{footnote.id}"
+      li[id=def_id]
+        = footnote.text
+        a[href="##{mark_id}"]
+          |  [#{footnote.index - 1}]

@@ -1,0 +1,41 @@
+@import '../vars';
+
+$header-font-size: 2.2rem, 1.8rem, 1.5rem, 1.3rem, 1.2rem, 1.1rem;
+
+@for $i from 1 to 7 {
+	%section-h#{$i} {
+		font-size: nth($header-font-size, $i);
+		@if $i != 1 {
+			border-bottom: 1px solid #ccc;
+		}
+		margin: $vertical-unit 0;
+
+		a.#{$permalink-class}::before {
+			display: inline-block;
+			margin-left: 0;
+			margin-right: 0.5em;
+			content: str-slice("######", 1, $i);
+			color: #aaa;
+		}
+		a.#{$permalink-class}::after {
+			// Remove default permalink style.
+			display: none;
+		}
+		&:hover >a[href].#{$permalink-class}::before {
+			color: #666;
+		}
+	}
+}
+
+@for $i from 1 to 7 {
+	// Avoid applying this style to `aside >h2`.
+	article, section {
+		h#{$i} {
+			@extend %section-h#{$i};
+		}
+	}
+
+	h#{$i}.section-header {
+		@extend %section-h#{$i};
+	}
+}

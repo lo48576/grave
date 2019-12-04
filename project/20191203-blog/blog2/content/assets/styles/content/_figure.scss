@@ -1,0 +1,25 @@
+@import '../vars';
+
+figure {
+	padding: 0 1rem;
+	border: 1px solid #eee;
+	margin: $vertical-unit 0;
+	border-radius: 1rem;
+
+	//>blockquote {
+	//    margin: 1rem 0;
+	//}
+}
+
+figcaption:last-child {
+	margin-top: 0.4rem;
+	border-top: 1px solid #999;
+	//text-align: right;
+
+	>p:first-child {
+		margin-top: 0.2em;
+	}
+	>p:last-child {
+		margin-bottom: 0.2em;
+	}
+}

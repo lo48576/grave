@@ -1,0 +1,12 @@
+- checklist = 'checklist' if option? 'checklist'
+ul[id=(id unless title?) class=checklist]
+  - items.each do |item|
+    - if checklist && (item.attr? :checkbox)
+      li.checklist
+        input.task-list-items[type='checkbox' disabled=true checked=(item.attr? :checked)]
+        =< item.text
+        = item.content
+    - else
+      li
+        = item.text
+        = item.content

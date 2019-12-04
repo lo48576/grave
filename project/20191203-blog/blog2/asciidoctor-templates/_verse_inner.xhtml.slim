@@ -1,0 +1,8 @@
+- if (attr? 'attribution') || (attr? 'citetitle')
+  blockquote.verse[id=(id unless title?)]
+    pre.verse
+      = content
+    include _attribution.xhtml
+- else
+  pre.verse[id=(id unless title?)]
+    = content

@@ -1,0 +1,16 @@
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+
+[*.{html,xhtml}{,.erb}]
+indent_style = tab
+indent_size = 2
+
+[*.{css,scss}]
+indent_style = tab
+
+[*.slim]
+indent_style = space
+indent_size = 2

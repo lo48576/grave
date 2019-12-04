@@ -1,0 +1,18 @@
+<%- target = @target || @item -%>
+<div class="article-dates">
+	<%- if published_at = target[:published_at] || target[:created_at] -%>
+		<p>
+			published:
+			<%- year4 = published_at.strftime('%Y') -%>
+			<%- month2 = published_at.strftime('%m') -%>
+			<time datetime="<%= published_at.strftime('%FT%T%:z') %>"><%= link_to_unless_current "#{year4}", @items[source_path_for_archive(year4)] %>/<%= link_to_unless_current "#{month2}", @items[source_path_for_archive(year4, month2)] %>/<%= published_at.strftime('%d (%a) %H:%M %Z') %></time>
+		</p>
+	<%- end -%>
+	<%- if updated_at = target[:updated_at] -%>
+		<p>
+			updated:
+			<time datetime="<%= updated_at.strftime('%FT%T%:z') %>"><%= updated_at.strftime('%Y/%m/%d (%a) %H:%M %Z') %></time>
+		</p>
+	<%- end -%>
+</div>
+<%-# vim: set ft=eruby : -%>

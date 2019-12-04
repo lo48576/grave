@@ -1,0 +1,23 @@
+---
+---
+<%=
+result = {}
+def to_iso8601(time)
+	attribute_to_time(time).strftime('%FT%T%:z')
+end
+sorted_articles.each do |item|
+	entry = {
+		title: item[:title],
+		created_at: to_iso8601(item[:created_at]),
+	}
+	#p attribute_to_time(item[:created_at])
+	if val = item[:excerpt]
+		entry['excerpt'] = val
+	end
+	if val = item[:updated_at]
+		entry['updated_at'] = to_iso8601(val)
+	end
+	result[item.path] = entry
+end
+result.to_json
+%>

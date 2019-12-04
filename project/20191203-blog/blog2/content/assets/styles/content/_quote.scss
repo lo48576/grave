@@ -1,0 +1,18 @@
+@import '../vars';
+
+%blockquote-attribution {
+	&::before {
+		content: "\2014\2014 ";
+		margin-right: 0.5rem;
+	}
+}
+
+blockquote {
+	border-left: 0.3rem solid #ccc;
+	margin: $vertical-unit 0;
+	padding: 0 0 0 $vertical-unit;
+
+	>footer cite {
+		@extend %blockquote-attribution;
+	}
+}

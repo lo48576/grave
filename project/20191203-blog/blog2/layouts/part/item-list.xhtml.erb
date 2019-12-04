@@ -1,0 +1,22 @@
+<%- header_level = @header_level || 2 -%>
+<%- header_open_tag = "<h#{header_level}>" -%>
+<%- header_close_tag = "</h#{header_level}>" -%>
+<%- @target_items.each do |item| -%>
+	<section>
+		<%= header_open_tag %><%= link_to "#{item[:title]}", item %><%= header_close_tag -%>
+		<aside class="article-info"><!-- article metadata -->
+			<%= render '/part/article-dates.*', target: item -%>
+			<%= render '/part/tags.*', target: item -%>
+		</aside>
+		<div><!-- excerpt -->
+			<%- if excerpt = item[:excerpt] -%>
+				<p>
+					<%= excerpt -%>
+				</p>
+			<%- else -%>
+				<p>(No summary provided.)</p>
+			<%- end -%>
+		</div>
+	</section>
+<%- end -%>
+<%-# vim: set ft=eruby : -%>

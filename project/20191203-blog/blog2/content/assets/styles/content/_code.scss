@@ -1,0 +1,35 @@
+$font-family-monospace: monospace !default;
+$font-family-code-inline: "Fira Mono", "Ricty", "Source Han Code JP", "Inconsolata", "Source Code Pro", $font-family-monospace !default;
+$font-family-code-blockblock: $font-family-code-inline !default;
+$font-family-terminal: $font-family-code-inline !default;
+
+@mixin code-common {
+	border: 1px solid #eeeef899;
+	background: #f4f4f499;
+}
+
+%code-inline-block {
+	@include code-common;
+	font-family: $font-family-code-inline;
+	display: inline-block;
+	border-radius: 0.2em;
+	padding: 0 0.2em;
+}
+
+code, kbd {
+	@extend %code-inline-block;
+}
+
+pre {
+	overflow-x: auto;
+	padding: 0.5rem 1rem;
+	border: 1px solid #eeeef8;
+	background: #f4f4f4ee;
+
+	&.highlight {
+		white-space: normal;
+		>code {
+			white-space: pre;
+		}
+	}
+}

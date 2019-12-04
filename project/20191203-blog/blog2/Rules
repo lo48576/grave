@@ -1,0 +1,144 @@
+#!/usr/bin/env ruby
+
+require 'asciidoctor'
+
+preprocess do
+  create_archive_pages
+  create_article_list_pages
+
+  @items.find_all('**/*.adoc').each do |item|
+    doc = Asciidoctor.load(item.raw_content)
+    item[:title] ||= doc.title
+  end
+end
+
+# Assets {{{1
+# SCSS {{{2
+# Sass partials.
+ignore '/**/_*.scss'
+
+# SCSS files.
+[:default, :sourcemap].each do |rep_name|
+  compile '/assets/styles/**/*.scss', rep: rep_name do
+    path = item.identifier.without_ext + '.css'
+    map_path = path + '.map'
+    options = {
+      syntax: :scss,
+      style: :compact,
+      css_path: path,
+      sourcemap_path: File.basename(map_path),
+    }
+    case rep_name
+    when :default
+      filter :sass, options
+      filter :relativize_paths, type: :css
+      write path
+    when :sourcemap
+      filter :sass_sourcemap, options
+      filter :relativize_paths, type: :css
+      write path + '.map'
+    end
+  end
+
+end
+# }}}2
+
+route '/assets/**/*' do
+  @item.identifier.to_s
+end
+# }}}1
+
+# Single pages {{{1
+compile '/index.xhtml' do
+  layout '/page-base.*'
+  write '/index.xhtml'
+end
+
+compile '/feed.xml.erb' do
+  filter :erb
+  write item.identifier.without_ext
+end
+
+compile '/articles.json.erb' do
+  filter :erb
+  write item.identifier.without_ext
+end
+# }}}1
+
+# Articles {{{1
+compile '/articles/**/*.adoc' do
+  options = {
+    backend: :xhtml5,
+    template_dirs: 'asciidoctor-templates',
+    attributes: {
+      'toc-title' => '目次',
+      'toc' => 'preamble',
+      'footnotes-header-level' => 1,
+      'footnotes-title' => '脚注',
+      'source-highlighter' => 'pygments',
+    },
+  }
+  filter :asciidoctor, options
+  layout '/article.*'
+  filter :relativize_paths, type: :xhtml
+end
+
+# /articles/**/yyyy-mm-dd-slug/**/index.{adoc,xhtml} => /yyyy/mm/dd/slug/**/index.xhtml
+# /articles/**/yyyy-mm-dd-slug/**/*.{adoc,xhtml} => /yyyy/mm/dd/slug/**/*/index.xhtml
+route %r[^/articles/(?:[^/]+/)*(\d{4})-(\d{2})-(\d{2})-(.+?)(?:/index)?\.(?:adoc|xhtml)$] do |yyyy, mm, dd, slug_relpath|
+  "/#{yyyy}/#{mm}/#{dd}/#{slug_relpath}/index.xhtml"
+end
+
+# /articles/**/yyyy-mm-dd-slug/* => /yyyy/mm/dd/slug/*
+route %r[^/articles/(?:[^/]+/)*(\d{4})-(\d{2})-(\d{2})-(.+)$] do |yyyy, mm, dd, slug_relpath|
+  "/#{yyyy}/#{mm}/#{dd}/#{slug_relpath}"
+end
+# }}}1
+
+# Tags {{{1
+compile '/tags/data/*.adoc' do
+  options = {
+    backend: :xhtml5,
+    template_dirs: 'asciidoctor-templates',
+    attributes: {
+      'toc-title' => '目次',
+      'toc' => 'preamble',
+      'footnotes-header-level' => 1,
+      'footnotes-title' => '脚注',
+      'source-highlighter' => 'pygments',
+    },
+  }
+  filter :asciidoctor, options
+  layout '/tag-page.*'
+  filter :relativize_paths, type: :xhtml
+end
+
+route %r[^/tags/data/([^/]+)\.adoc] do |tag,|
+  "/tags/#{tag}/index.xhtml"
+end
+
+compile '/tags/**/*.xhtml.slim' do
+  filter :slim
+  layout '/page-base.*'
+  filter :relativize_paths, type: :xhtml
+end
+
+route '/tags/**/*.{xhtml,json}.{erb,slim}' do
+  @item.identifier.without_ext
+end
+# }}}1
+
+# Feed {{{1
+compile '/feed.xml' do
+  filter :erb
+end
+# }}}1
+
+compile '/**/*' do
+  write item.identifier.to_s
+end
+
+layout '/**/*.slim', :slim
+layout '/**/*.erb', :erb, trim_mode: '-'
+
+# vim: set foldmethod=marker :

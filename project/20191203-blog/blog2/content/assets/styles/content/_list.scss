@@ -1,0 +1,18 @@
+@import '../vars';
+
+ul, ol {
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	margin: 0 0 0 1.5rem;
+	line-height: $vertical-unit;
+
+	>p:first-child {
+		margin-top: $vertical-unit / 2;
+	}
+	>p:last-child {
+		margin-bottom: $vertical-unit / 2;
+	}
+}

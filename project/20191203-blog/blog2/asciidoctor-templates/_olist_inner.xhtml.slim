@@ -1,0 +1,6 @@
+- checklist = 'checklist' if option? 'checklist'
+ol[id=(id unless title?) class=style start=(attr :start) type=list_marker_keyword reversed=(option? 'reversed')]
+  - items.each do |item|
+    li
+      = item.text
+      = item.content

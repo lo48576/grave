@@ -1,0 +1,24 @@
+- case type
+- when :xref
+  a[href=target]
+    - if text
+      - s = text
+    - if !text
+      - if (path = attr 'path')
+        - s = path
+      - elsif document.respond_to? 'catalog'
+        - ref = document.catalog[:refs][attr 'refid']
+        - if (ref.kind_of? Asciidoctor::AbstractBlock)
+          - s = ref.xreftext(document.attributes['xrefstyle'])
+      - else
+        - s = document.references[:ids][(attr 'refid') || target]
+    - s = s&.tr_s('\n', ' ')
+    = s
+- when :ref
+  a[id=id aria-hidden='true']
+- when :bibref
+  a[id=id aria-hidden='true']
+- else
+  - link_rel = 'noopener noreferrer' if (option? 'noopener') || (attr 'window') == '_blank'
+  a[id=id class=role href=target target=(attr 'window') rel=link_rel title=(attr 'title')]
+    = text

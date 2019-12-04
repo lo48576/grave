@@ -1,0 +1,8 @@
+<aside>
+	<p>
+		<%= link_to_unless_current '一覧', @items[source_path_for_article_list] -%>
+		/
+		<%= link_to_unless_current '日付', @items[source_path_for_archive] -%>
+	</p>
+</aside>
+<%-# vim: set ft=eruby : -%>

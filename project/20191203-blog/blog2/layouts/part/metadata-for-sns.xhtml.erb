@@ -1,0 +1,43 @@
+<%- target = @target || @item -%>
+<%-
+	article_meta = target[:article_metadata]
+%>
+<%-
+	image_url = article_meta&.dig(:image_url)
+	if image_url
+		if article_meta[:image_base] == 'relpath'  # Relative path.
+			current_dir = target.path.gsub(/\/[^\/]*$/, '/')
+			image_url = @config[:base_url] + current_dir + image_url
+		elsif article_meta[:image_base] == 'abspath'  # Absolute path.
+			image_url = @config[:base_url] + image_url
+		elsif /^https?:\/\/.*$/.match(image_url)  # Absolute URL.
+			# Use raw `image_url`.
+		else
+			raise "Invalid `image_url` metadata: #{image_url.inspect}"
+		end
+	end
+	# Use default if not set.
+	image_url ||= @config[:base_url] + '/assets/img/profiles/icon/lo48576.gnusocial.cardina1.red.2017-01-29.jpg'
+	image_alt = article_meta&.dig(:image_alt) || ""
+-%>
+<%-
+	data = {
+		article_title: target[:title],
+		description: target[:excerpt] || '何とは言わない天然水飲みたい',
+		image_url: image_url,
+		image_alt: image_alt,
+		canonical_url: @config[:base_url] + target.path,
+		locale: target[:locale] || 'ja_JP',
+		site_title: @config[:site_title],
+		published_time: target[:created_at],
+		modified_time: target[:updated_at],
+		author_name: 'らりお',
+		twitter: {
+			site_account: '@lo48576',
+			author_account: article_meta&.dig(:author_twitter) || '@lo48576',
+		},
+	}
+-%>
+<%= render '/part/article-metadata/twitter/summary.*', data: data -%>
+<%= render '/part/article-metadata/opengraph/article.*', data: data -%>
+<%-# vim: set ft=eruby : -%>

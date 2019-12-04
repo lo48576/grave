@@ -1,0 +1,15 @@
+---
+title: "Tags"
+
+excerpt: "タグ一覧"
+---
+section
+  h1
+    == @item[:title]
+  - if all_tags = tags
+    ul
+      - all_tags.tags.sort_by {|tag| all_tags.item(tag)[:title]}.each do |tag; item|
+        li
+          - item = all_tags.item(tag)
+          == link_to item[:title], item
+          | [#{articles.count {|item| item[:tags].include?(tag) }} / #{articles.count {|item| !(item[:tags] & all_tags.descendants_and_self(tag).to_a).empty? }}]

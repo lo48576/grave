@@ -1,0 +1,29 @@
+<%- if next_year4 = @item[:next_year4]
+		next_year_item = @items[source_path_for_archive(next_year4)]
+		next_year_link = link_to "&#xAB; #{next_year4}年", next_year_item
+	end -%>
+<%- if prev_year4 = @item[:prev_year4]
+		prev_year_item = @items[source_path_for_archive(prev_year4)]
+		prev_year_link = link_to "#{prev_year4}年 &#xBB;", prev_year_item
+	end -%>
+<%- render '/page-base.*',
+		prev_uri: next_year_item&.path,
+		next_uri: prev_year_item&.path do -%>
+<%- year4 = @item[:year4] -%>
+<%- prev_next = render '/part/prev-next-page.*', prev_link: next_year_link, next_link: prev_year_link -%>
+
+<section>
+	<h1>Archive: <%= year4 %>年</h1>
+	<%= render '/part/archive-top-link.xhtml' -%>
+	<%= prev_next -%>
+	<%- @item[:months].each do |month2, fl| -%>
+		<%- first_index, last_index = fl -%>
+		<section>
+			<h2><%= link_to "#{year4}/#{month2}", @items[source_path_for_archive(year4, month2)] %></h2>
+			<%= render '/part/item-list.*', target_items: articles_sorted_by_publish[first_index..last_index], header_level: 3 -%>
+		</section>
+	<%- end -%>
+	<%= prev_next -%>
+</section>
+<%- end -%>
+<%-# vim: set ft=eruby : -%>

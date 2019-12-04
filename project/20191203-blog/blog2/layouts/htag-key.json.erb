@@ -1,0 +1,11 @@
+<%-
+tag_node = @item[:tag_node]
+items_exact = tag_node.item_exact.collect{|item| @items[item.identifier].path}
+items_descendant = tag_node.item_descendant.collect{|item| @items[item.identifier].path}
+-%><%=
+{
+	items_exact: items_exact,
+	items_descendant: items_descendant,
+}.to_json
+-%>
+<%-# vim: set ft=eruby : -%>
